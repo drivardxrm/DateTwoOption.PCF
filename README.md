@@ -11,10 +11,12 @@ fluentui/react : https://github.com/microsoft/fluentui
 | Show Date    | Show checked date next to checkbox                                                         | true|
 | Show Date Text   | Text to show before the date (ex. Completed on ...), remove to show date only                    | Completed on   |
 | Override Date Format    | Override the date format (defaults are DateAndTime=YYYY-MM-DD hh:mm, DateOnly=YYYY-MM-DD            |      |
-| Lock After Check   | Lock after first check                                                              |         |
+| Lock After Check   | Lock after first check                                                              |     false    |
 
 
 # Screenshots
+![alt text](https://github.com/drivardxrm/DateTwoOption.PCF/blob/master/datetwooption.png?raw=true)
+![alt text](https://github.com/drivardxrm/DateTwoOption.PCF/blob/master/datetwooption.gif?raw=true)
 
 
 # Installation
