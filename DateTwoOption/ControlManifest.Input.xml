@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="DR" constructor="DateTwoOption" version="0.0.3" display-name-key="DateTwoOption" description-key="DateTwoOption description" control-type="standard" preview-image="img/datetwooption-preview.png">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="datetwooptionfield" display-name-key="Date TwoOption Field" description-key="Date field to attach the control" of-type-group="dates" usage="bound" required="true" />
+    <property name="showdate" display-name-key="Show Date" description-key="Show checked date next to checkbox" of-type="Enum" usage="input" required="true">
+      <value name="false" display-name-key="false" description-key="false">false</value>
+      <value name="true" display-name-key="true" description-key="true" default="true">true</value>
+    </property>
+    <property name="showdatetext" display-name-key="Show Date Text" description-key="Text to show before the date (ex. Completed on ...), remove to show date only" of-type="SingleLine.Text" usage="input" required="false" default-value="Completed on"/>
+
+    <property name="overridedateformat" display-name-key="Override Date Format" description-key="Override the date format (defaults are DateAndTime=YYYY-MM-DD hh:mm, DateOnly=YYYY-MM-DD" of-type="SingleLine.Text" usage="input" required="false"/>
+
+
+    <property name="lockafterchecked" display-name-key="Lock After Check" description-key="Lock after first check" of-type="Enum" usage="input" required="true">
+      <value name="false" display-name-key="false" description-key="false" default="true">false</value>
+      <value name="true" display-name-key="true" description-key="true">true</value>
+      
+    </property>
+
+    <type-group name="dates">
+      <type>DateAndTime.DateAndTime</type>
+      <type>DateAndTime.DateOnly</type>
+    </type-group>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      
+    </resources>
+    
+  </control>
+</manifest>
