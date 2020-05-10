@@ -4,17 +4,28 @@ DateTwoOption PCF (PowerApps Component framework) Control that turns a PowerApps
 # Dependencies
 fluentui/react : https://github.com/microsoft/fluentui
 
+# Features
+*	Compatible with all DateTime formats (Date Only, User Local, Timezone Independent)
+*	Show or Hide the checked date beside the Chexbox.
+*	Customize text that appears beside the checkbox
+*	Customize the DateTime display format
+*	Optional : Lock the Checkbox after check
+
+
 # Parameters
 | Parameter         | Description                                                                                  | Default     |
 |-------------------|----------------------------------------------------------------------------------------------|----------   |
-|Date TwoOption Field  | Date field to attach the control                                                             |             |
-| Show Date    | Show checked date next to checkbox                                                         | true|
-| Show Date Text   | Text to show before the date (ex. Completed on ...), remove to show date only                    | Completed on   |
-| Override Date Format    | Override the date format (defaults are DateAndTime=YYYY-MM-DD hh:mm, DateOnly=YYYY-MM-DD            |      |
-| Lock After Check   | Lock after first check                                                              |         |
+|Date TwoOption Field  | Date field to attach the control                                                          |             |
+| Show Date    | Show checked date next to checkbox                                                                | true|
+| Show Date Text   | Text to show before the date (ex. Completed on ...), remove to show date only                 | Completed on   |
+| Override Date Format    | Override the date format (defaults are DateAndTime=YYYY-MM-DD hh:mm, DateOnly=YYYY-MM-DD  |      |
+| Lock After Check   | Lock after first check                                                              |     false    |
 
 
 # Screenshots
+![alt text](https://github.com/drivardxrm/DateTwoOption.PCF/blob/master/datetwooption.png?raw=true)
+![alt text](https://github.com/drivardxrm/DateTwoOption.PCF/blob/master/datetwooption-feature.png?raw=true)
+![alt text](https://github.com/drivardxrm/DateTwoOption.PCF/blob/master/datetwooption.gif?raw=true)
 
 
 # Installation
