@@ -56,8 +56,6 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
 		// Add code to update control view
-		//Visibility of the main attribute on the form
-		let isVisible = context.mode.isVisible 
 		
 		// If the bound attribute is disabled because it is inactive or the user doesn't have access
 		let isReadOnly = context.mode.isControlDisabled;
@@ -66,14 +64,8 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		// When a field has FLS enabled, the security property on the attribute parameter is set
 		if (context.parameters.datetwooptionfield.security) {
 			isReadOnly = isReadOnly || !context.parameters.datetwooptionfield.security.editable;
-			isVisible = isVisible && context.parameters.datetwooptionfield.security.readable;
-			isMasked = isVisible && !context.parameters.datetwooptionfield.security.readable
+			isMasked = !context.parameters.datetwooptionfield.security.readable
 		}
-
-		if(!isVisible){
-			return;
-		}
-
 		
 		let datetype = context.parameters.datetwooptionfield.type;
 		let dateformat = context.parameters.overridedateformat.raw ?? 
