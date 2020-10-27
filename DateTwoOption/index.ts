@@ -2,18 +2,20 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import DateTwoOptionControl, {IProps} from "./DateTwoOptionControl";
-import moment, { Moment } from 'moment';
+
+
 
 export class DateTwoOption implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _notifyOutputChanged:() => void;
 	private _container: HTMLDivElement;	
 
-	private _checkeddate:Moment|undefined;
+	private _checkeddate:Date|undefined;
 
 	private _props:IProps = 
 	{
 		checkeddate:undefined,
+		offset:0,
 		format:"",
 		showdate:true,
 		showdatetext:"",
@@ -80,21 +82,17 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		//  * 3 - TimeZoneIndependent - Dates and time stored without conversion to UTC 
 
 		if(context.parameters.datetwooptionfield.raw !== null){
-			//add behavior
-			let checkeddate:Date = context.parameters.datetwooptionfield.raw as Date;
-			let checkedOn:Moment = moment(checkeddate)
-		
-			let offset:number = behavior === 1 ? 0 :context.userSettings.getTimeZoneOffsetMinutes(checkeddate);
+			
+			let dateraw = context.parameters.datetwooptionfield.raw as Date;
+			this._props.checkeddate = dateraw;
+			this._props.offset = behavior === 1 ? 0 :context.userSettings.getTimeZoneOffsetMinutes(dateraw);
 
-			checkedOn = checkedOn.add(offset,"minutes");
-
-			this._checkeddate =  moment(context.parameters.datetwooptionfield.raw as Date).subtract(offset,"minute");
 		}else{
-			this._checkeddate = undefined;
+			this._props.checkeddate = undefined;
+			
 		}
 		//format different depending on behavior
 		
-		this._props.checkeddate = this._checkeddate;
 		this._props.format = dateformat;
 		this._props.readonly = isReadOnly;
 		this._props.masked = isMasked;
@@ -119,7 +117,7 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		return {
 			datetwooptionfield:this._checkeddate === undefined ? 
 										undefined : 
-										this._checkeddate.toDate(),
+										this._checkeddate
 		};
 	}
 
@@ -133,10 +131,11 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		ReactDOM.unmountComponentAtNode(this._container);
 	}
 
-	private notifyChange(checkedOn:Moment|undefined)
+	private notifyChange(checkedOn:Date|undefined)
 	{
-
 		this._checkeddate = checkedOn;
 		this._notifyOutputChanged();
 	}
+
+	
 }

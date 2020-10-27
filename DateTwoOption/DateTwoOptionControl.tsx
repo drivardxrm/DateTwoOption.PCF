@@ -1,14 +1,24 @@
 import * as React from "react";
-import { Stack, TextField,Checkbox,FontIcon,initializeIcons,mergeStyles} from "@fluentui/react"; 
-import { useState, useEffect} from "react";
-import {useConst} from "@uifabric/react-hooks";
-import moment, { Moment } from 'moment';
 
+//declaring fluentui library independently will produce a lighter bundle
+import { mergeStyles} from "@fluentui/react/lib/Styling"; 
+import { Stack } from "@fluentui/react/lib/Stack";
+import { TextField } from "@fluentui/react/lib/TextField";
+import { Checkbox } from "@fluentui/react/lib/Checkbox";
+import { initializeIcons } from "@fluentui/react/lib/Icons"; 
+import { FontIcon} from "@fluentui/react/lib/Icon"; 
+
+
+import { useMemo} from "react";
+import dayjs from "dayjs";
+
+initializeIcons();
 
 export interface IProps {
     
     //properties
-    checkeddate: Moment|undefined;
+    checkeddate: Date|undefined;
+    offset:number;
     format : string;
     showdate:boolean,
     showdatetext:string,
@@ -18,64 +28,27 @@ export interface IProps {
 
 
     //return function
-    onChange: (rating:Moment|undefined) => void;
+    onChange: (checkedon:Date|undefined) => void;
 }
 
 
 const DateTwoOptionControl = (props:IProps): JSX.Element => {
 
-    //Will run once on first render, like a constructor
-    useConst(() => {
-        initializeIcons();
-    });
-    
-    const [checkedOn, setCheckedOn] = useState<Moment|undefined>(props.checkeddate);
-    const [checkedOnLabel, setCheckedOnLabel] = useState<string>(props.checkeddate !== undefined ? 
-                                                                            props.showdatetext + 
-                                                                                (props.showdatetext.length > 0 ? " " : "") + 
-                                                                                    props.checkeddate.format(props.format) :
-                                                                            "");
-    //EFFECT HOOKS
-    useEffect(() => {
 
-        if(checkedOn !== props.checkeddate){
-            
-            props.onChange(checkedOn);
-        }
+    const checkedOnLabel = useMemo<string>(() =>{
+        return props.checkeddate !== undefined ? 
+                    props.showdatetext + 
+                        (props.showdatetext.length > 0 ? " " : "") + 
+                        dayjs(props.checkeddate).subtract(props.offset,"minute").format(props.format) :
+                    ""
+    },[props.checkeddate,props.showdatetext,props.offset,props.format])
 
-    }, [checkedOn]);  //WHEN isChecked changes, 
 
-    useEffect(() => {
-
-        if(checkedOn !== props.checkeddate){
-            setCheckedOn(props.checkeddate);
-            setCheckedOnLabel(props.checkeddate !== undefined ? 
-                                props.showdatetext + 
-                                    (props.showdatetext.length > 0 ? " " : "") + 
-                                        props.checkeddate.format(props.format) :
-                                "");
-        }
-
-    }, [props.checkeddate]);  //WHEN props.checkeddate changes changes, 
-     
-    
-    //EVENT HANDLER
+    //EVENT HANDLER => Signal back to PCF
     const onChange = (ev?: React.FormEvent<HTMLElement>, checked?: boolean): void => {
+        
         let ischecked:boolean = !!checked;
-
-        if(ischecked){
-            
-            let current = moment();
-            setCheckedOn(current);
-            setCheckedOnLabel(props.showdatetext + 
-                                (props.showdatetext.length > 0 ? " " : "") + 
-                                    current.format(props.format) );
-        }else{
-            
-            setCheckedOn(undefined);
-            setCheckedOnLabel("");
-        }
-
+        props.onChange(ischecked ? new Date() : undefined);
     };
     
     //Styles
@@ -100,10 +73,10 @@ const DateTwoOptionControl = (props:IProps): JSX.Element => {
 
             <Stack tokens={stackTokens} horizontal>
                 <Checkbox 
-                    label={props.showdate ? checkedOnLabel : ""}  
-                    checked={checkedOn !== undefined} 
+                    label={checkedOnLabel}  
+                    checked={props.checkeddate !== undefined} 
                     onChange={onChange} 
-                    disabled={props.readonly || (checkedOn !== undefined && props.lockafterchecked)}
+                    disabled={props.readonly || (props.checkeddate !== undefined && props.lockafterchecked)}
                 />
             </Stack>
         );
