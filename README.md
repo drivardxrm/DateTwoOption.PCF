@@ -1,4 +1,4 @@
-# DateTwoOption.PCF
+# DateTwoOption.PCF ![GitHub all releases](https://img.shields.io/github/downloads/drivardxrm/DateTwoOption.PCF/total?style=plastic)
 DateTwoOption PCF (PowerApps Component framework) Control that turns a PowerApps date field into a checkbox. When the checkbox is clicked, the current date is stored in the backing date field.
 
 # Dependencies
