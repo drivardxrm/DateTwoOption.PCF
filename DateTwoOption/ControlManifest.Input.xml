@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="DR" constructor="DateTwoOption" version="0.0.5" display-name-key="DateTwoOption" description-key="DateTwoOption description" control-type="standard" preview-image="img/datetwooption-preview.png">
+  <control namespace="DR" constructor="DateTwoOption" version="0.0.6" display-name-key="DateTwoOption" description-key="DateTwoOption description" control-type="standard" preview-image="img/datetwooption-preview.png">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="datetwooptionfield" display-name-key="Date TwoOption Field" description-key="Date field to attach the control" of-type-group="dates" usage="bound" required="true" />
     <property name="showdate" display-name-key="Show Date" description-key="Show checked date next to checkbox" of-type="Enum" usage="input" required="true">
