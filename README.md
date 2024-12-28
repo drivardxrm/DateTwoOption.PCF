@@ -2,7 +2,7 @@
 DateTwoOption PCF (PowerApps Component framework) Control that turns a PowerApps date field into a checkbox. When the checkbox is clicked, the current date is stored in the backing date field.
 
 # Dependencies
-fluentui/react : https://github.com/microsoft/fluentui
+fluentui/react-components : https://github.com/microsoft/fluentui
 
 # Features
 *	Compatible with all DateTime formats (Date Only, User Local, Timezone Independent)
