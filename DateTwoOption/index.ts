@@ -1,19 +1,21 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createElement } from 'react';
+import { createRoot, Root } from 'react-dom/client';
 import DateTwoOptionControl, {IProps} from "./DateTwoOptionControl";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 export class DateTwoOption implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
+	private _root: Root;
 	private _notifyOutputChanged:() => void;
-	private _container: HTMLDivElement;	
 
 	private _checkeddate:Date|undefined;
 
 	private _props:IProps = 
 	{
+		instanceId: uuidv4(),
 		checkeddate:undefined,
 		offset:0,
 		format:"",
@@ -22,6 +24,7 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		lockafterchecked:false,
 		readonly:false,
 		masked:false,
+		isDarkMode: false,
 
 		onChange: this.notifyChange.bind(this)
 	}
@@ -46,8 +49,9 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 	{
 		// Add control initialization code
 		this._notifyOutputChanged = notifyOutputChanged;
-		this._container = document.createElement("div");
-		container.appendChild(this._container);
+		this._root = createRoot(container!)
+		
+		this._props.isDarkMode = context.fluentDesignLanguage?.isDarkTheme ?? false;
 	}
 
 
@@ -101,10 +105,10 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 		this._props.showdatetext = context.parameters.showdatetext.raw ?? "";
 
 		
-		ReactDOM.render(
-			React.createElement(DateTwoOptionControl,this._props)
-			, this._container
-		);
+		// RENDER React Component
+		this._root.render(createElement(DateTwoOptionControl, this._props)) 
+
+		
 	}
 
 	/** 
@@ -127,8 +131,8 @@ export class DateTwoOption implements ComponentFramework.StandardControl<IInputs
 	 */
 	public destroy(): void
 	{
-		// Add code to cleanup control if necessaryReactDOM.unmountComponentAtNode(this._container);
-		ReactDOM.unmountComponentAtNode(this._container);
+		// Add code to cleanup control if necessary
+		this._root.unmount();
 	}
 
 	private notifyChange(checkedOn:Date|undefined)

@@ -1,22 +1,13 @@
 import * as React from "react";
-
-//declaring fluentui library independently will produce a lighter bundle
-import { mergeStyles} from "@fluentui/react/lib/Styling"; 
-import { Stack } from "@fluentui/react/lib/Stack";
-import { TextField } from "@fluentui/react/lib/TextField";
-import { Checkbox } from "@fluentui/react/lib/Checkbox";
-import { initializeIcons } from "@fluentui/react/lib/Icons"; 
-import { FontIcon} from "@fluentui/react/lib/Icon"; 
-
-
-import { useMemo} from "react";
+import { ChangeEvent, useMemo} from "react";
 import dayjs from "dayjs";
-
-initializeIcons();
+import { Checkbox, CheckboxOnChangeData, FluentProvider, IdPrefixProvider, Input, makeStyles, webDarkTheme, webLightTheme } from "@fluentui/react-components";
+import { LockMultipleRegular } from '@fluentui/react-icons';
 
 export interface IProps {
     
     //properties
+    instanceId: string;
     checkeddate: Date|undefined;
     offset:number;
     format : string;
@@ -25,11 +16,14 @@ export interface IProps {
     lockafterchecked:boolean,
     readonly: boolean;
     masked: boolean;
+    isDarkMode:boolean;
 
 
     //return function
     onChange: (checkedon:Date|undefined) => void;
 }
+
+
 
 
 const DateTwoOptionControl = (props:IProps): JSX.Element => {
@@ -45,43 +39,40 @@ const DateTwoOptionControl = (props:IProps): JSX.Element => {
 
 
     //EVENT HANDLER => Signal back to PCF
-    const onChange = (ev?: React.FormEvent<HTMLElement>, checked?: boolean): void => {
+    const onChange = (ev: ChangeEvent<HTMLInputElement>, data: CheckboxOnChangeData): void => {
         
-        let ischecked:boolean = !!checked;
+        let ischecked:boolean = !!data.checked;
         props.onChange(ischecked ? new Date() : undefined);
     };
     
-    //Styles
-    const stackTokens = { childrenGap: 10 };
 
-    const maskedclass = mergeStyles({
-        fontSize: 30,
-        height: 30,
-        width: 50,
-        margin: "1px",      
-    });
 
-    if(props.masked){
-        return(
-            <Stack tokens={{ childrenGap: 2 }} horizontal>
-                <FontIcon iconName="Lock" className={maskedclass} />     
-                <TextField value="*********" style={{width:"100%"}}/>
-            </Stack>
-        )
-    }else{
-        return (
+    return (
+        
+        <IdPrefixProvider value={`date-two-option-${props.instanceId}-`}>
+            <FluentProvider theme={props.isDarkMode ? webDarkTheme : webLightTheme} >
 
-            <Stack tokens={stackTokens} horizontal>
+            {props.masked ?
+                <Input
+                    contentBefore={<LockMultipleRegular />}
+                    type="password"
+                    value="*********"
+                    readOnly={true}
+                    style={{width:"100%"}} 
+                    appearance="filled-darker"
+                />
+                :
                 <Checkbox 
                     label={checkedOnLabel}  
                     checked={props.checkeddate !== undefined} 
                     onChange={onChange} 
                     disabled={props.readonly || (props.checkeddate !== undefined && props.lockafterchecked)}
                 />
-            </Stack>
-        );
-    }       
-     
+                
+            }
+            </FluentProvider>
+        </IdPrefixProvider >  
+    ) 
 }
 export default DateTwoOptionControl;
 
