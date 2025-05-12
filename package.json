@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@fluentui/react-components": "9.56.8",
+    "@fluentui/react-components": "9.57.0",
     "dayjs": "^1.11.13",
     "uuid": "^11.0.3"
   },
